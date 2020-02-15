@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{dd MMMM yyyy HH:mm:ss.SSS} [%t] %-5level %logger{1} - %msg%n" />
+        </Console>
+        <RollingFile
+            name="ErrorLog"
+            fileName="logs/ErrorLog Manual Mapping Client.txt"
+            filePattern="logs/ErrorLog Manual Mapping Client.%d{dd-MM-yyyy}.gz">
+            <PatternLayout pattern="%d{dd MMMM yyyy HH:mm:ss.SSS} [%t] %-5level %logger{1} - %msg%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" />
+            </Policies>
+            <DefaultRolloverStrategy max="5" />
+        </RollingFile>
+        <RollingFile
+            name="DetailLog"
+            fileName="logs/DetailLog Manual Mapping Client.txt"
+            filePattern="logs/ErrorLog Manual Mapping Client.%d{dd-MM-yyyy}.gz">
+            <PatternLayout pattern="%d{dd MMMM yyyy HH:mm:ss.SSS} [%t] %-5level %logger{1} - %msg%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" />
+            </Policies>
+            <DefaultRolloverStrategy max="5" />
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="Console" level="INFO" />
+            <AppenderRef ref="ErrorLog" level="ERROR" />
+            <AppenderRef ref="DetailLog" level="DEBUG" />
+        </Root>
+    </Loggers>
+</Configuration>
