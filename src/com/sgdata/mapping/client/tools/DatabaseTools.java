@@ -19,16 +19,18 @@ import org.apache.logging.log4j.Logger;
 public class DatabaseTools {
     static final Logger LOGGER = LogManager.getLogger(DatabaseTools.class.getName());
     
-    private final String DB_URL = "jdbc:jtds:sqlserver://127.0.0.1:1433/Listas_Sat";
     private final String DB_DRIVER = "net.sourceforge.jtds.jdbc.Driver";
+    
+    private final String DB_URL = "jdbc:jtds:sqlserver://127.0.0.1:1433/Listas_Sat";
+    private final String DB_USER = "reporter";
+    private final String DB_PASS = "12121212qw";
     
     public InfoMappingDTO databaseFinder(InfoMappingDTO infoMapping) {
         String rfcFetched = null;
         try {
             String dbDriver = DB_DRIVER;
-            String dbUrl = DB_URL;
             Class.forName(dbDriver);
-            Connection connection = DriverManager.getConnection(dbUrl, "reporter", "12121212qw");
+            Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
             Statement statement = connection.createStatement();
             ResultSet resultSet;
             
@@ -44,10 +46,10 @@ public class DatabaseTools {
             
             if (rfcFetched != null) {
                 infoMapping.setLco(true);
-                LOGGER.debug("Query Result: " + infoMapping.getRfc() + " - LCO: " + infoMapping.isLco());
+                LOGGER.trace("Query Result: " + infoMapping.getRfc() + " - LCO: " + infoMapping.isLco());
             } else {
                 infoMapping.setLco(false);
-                LOGGER.debug("Query Result: " + infoMapping.getRfc() + " - LCO: " + infoMapping.isLco());
+                LOGGER.trace("Query Result: " + infoMapping.getRfc() + " - LCO: " + infoMapping.isLco());
             }
             
         } catch(ClassNotFoundException e) {
@@ -55,7 +57,7 @@ public class DatabaseTools {
         } catch(SQLException e) {
             LOGGER.fatal("SQL Exception: " + e.getMessage());
         }
-        LOGGER.info("Query Result: " + infoMapping.getRfc() + " - LCO: " + infoMapping.isLco());
+        LOGGER.debug("Query Result: " + infoMapping.getRfc() + " - LCO: " + infoMapping.isLco());
         return infoMapping;
     }
 }
