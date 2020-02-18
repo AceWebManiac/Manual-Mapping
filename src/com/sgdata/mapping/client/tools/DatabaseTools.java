@@ -27,9 +27,14 @@ public class DatabaseTools {
     
     public InfoMappingDTO databaseFinder(InfoMappingDTO infoMapping) {
         String rfcFetched = null;
+        
         try {
-            String dbDriver = DB_DRIVER;
-            Class.forName(dbDriver);
+            Class.forName(DB_DRIVER);
+        } catch(ClassNotFoundException e) {
+            LOGGER.fatal("Class Not Found: " + e.getMessage());
+        }
+        
+        try {
             Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
             Statement statement = connection.createStatement();
             ResultSet resultSet;
@@ -52,8 +57,6 @@ public class DatabaseTools {
                 LOGGER.trace("Query Result: " + infoMapping.getRfc() + " - LCO: " + infoMapping.isLco());
             }
             
-        } catch(ClassNotFoundException e) {
-            LOGGER.fatal("Class Not Found: " + e.getMessage());
         } catch(SQLException e) {
             LOGGER.fatal("SQL Exception: " + e.getMessage());
         }
